@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Provider;
-use URL;
 
 class ProvidersController extends Controller
 {
@@ -60,7 +59,7 @@ class ProvidersController extends Controller
         $provider->update($request->all());
 
         flash()->success('Provider has been updated!');
-        return redirect(URL::route('providers.show', [$provider->id]));
+        return redirect(route('providers.show', [$provider->id]));
     }
 
     // admin only

@@ -5,26 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+    <title>KeyMan</title>
 
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.css">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/css/vendor/tether.css">
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/vendor/select2.css">
+     <link rel="stylesheet" href="/assets/css/layout.css">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
-    <style>
-        body {
-            font-family: 'Lato';
-        }
-
-        .fa-btn {
-            margin-right: 6px;
-        }
-    </style>
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -41,19 +31,20 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Keyman
+                    <img src="/assets/images/KeymanLogo.png" style="height:60px;">
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
-                    <li><a href="{{ url('/requests') }}">Requests</a></li>
-                    <li><a href="{{ url('/customers') }}">Customers</a></li>
-                    <li><a href="{{ url('/providers') }}">Providers</a></li>
-                    @if (Auth::user()->isAdmin())
-                    <li><a href="{{ url('/types') }}">Types</a></li>
+                    @if (Auth::check())
+                    	<li><a href="{{ url('/requests') }}">REQUESTS</a></li>
+                    	<li><a href="{{ url('/customers') }}">CUSTOMERS</a></li>
+                    	<li><a href="{{ url('/providers') }}">PROVIDERS</a></li>
+                    @endif
+                    @if (Auth::check() && Auth::user()->isAdmin())
+                    	<li><a href="{{ url('/types') }}">Types</a></li>
                     @endif
                 </ul>
 
@@ -81,18 +72,18 @@
     
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12">
                 @include('flash::message')
 
                 @yield('content')
             </div>
         </div>
     </div>
-
     <!-- JavaScripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.js"></script>
+    <script src="/assets/js/vendor/jquery-2.2.3.js"></script>
+    <script src="/assets/js/vendor/tether.js"></script>
+    <script src="/assets/js/vendor/bootstrap.js"></script>
+    <script src="/assets/js/vendor/select2.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     @yield('footer')
 </body>

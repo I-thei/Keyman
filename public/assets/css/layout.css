@@ -1,0 +1,124 @@
+
+@font-face {
+    font-family: 'Headings';
+    src: url('/assets/fonts/BebasNeue.woff');
+}
+
+@font-face {
+    font-family: 'Nav';
+    src: url('/assets/fonts/gotham-rounded-medium.woff');
+}
+
+@font-face {
+    font-family: 'Body';
+    src: url('/assets/fonts/Montserrat-Regular.ttf');
+}
+
+body {
+    font-family: 'Body';
+    background-color: #fafafa; 
+    color: rgb(38,38,38);
+ }
+
+h1, h3{
+    font-family: 'Headings';
+    letter-spacing: 2px;
+    }
+
+h1 {
+    font-size: 72px;
+    text-align: center;
+}
+
+.blue {
+    color: rgb(0,77,139);
+}
+
+.center {
+    text-align: center;
+}
+
+
+.btn {
+    align: center;
+}
+
+.btn-primary {
+    color: white;
+    background-color: rgb(233,130,51);
+    border: 0;
+    padding: 14px 0;
+    min-width: 96px;
+    width: 50%;
+}
+
+.fa-btn {
+    margin-right: 6px;
+}
+
+.panel-default{
+    padding: 0;
+}
+
+.panel-default .panel-heading {
+    background-color: rgb(232,131,52);
+    border: 0px;
+}
+
+.navbar-default {
+    background-color: #fafafa;
+    border-color: rgb(232,131,52);
+    border-width: 8px 0 0 0; 
+}
+
+.navbar-default .navbar-toggle {
+    border: 0;
+}
+
+.navbar-nav>li {
+    border-width: 0 0 0 8px;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.navbar-nav>li:hover {
+    background-color: #f5f5f5;
+    border-color: rgb(233,130,51);
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: rgb(0,77,139);
+    padding: 14px 15px 14px 15px;
+    font-family:'Nav';
+}
+
+
+@media (min-width: 768px) {
+
+    .navbar {
+    	height: 84px;
+    }
+
+    .navbar-nav>li {
+    	border-width: 0 0 8px 0;
+    	min-width: 120px;
+    }
+
+    .navbar-default .navbar-nav>li>a {
+        padding-top: 40px;
+        text-align: center;
+    }
+
+}
+
+@media (min-width: 992px) {
+
+    .narrow {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+}
+
+
+
+

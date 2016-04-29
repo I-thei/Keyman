@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Customer;
-use URL;
 
 class CustomersController extends Controller
 {
@@ -56,7 +55,7 @@ class CustomersController extends Controller
         $customer->update($request->all());
 
         flash()->success('Customer has been updated!');
-        return redirect(URL::route('customers.show', [$customer->id]));
+        return redirect(route('customers.show', [$customer->id]));
     }
 
     // admin only

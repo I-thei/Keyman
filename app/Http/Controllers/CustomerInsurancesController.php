@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Provider;
-use App\Insurance;
+use App\Customer;
 use App\InsuranceType;
+use App\Insurance;
+use App\Provider;
+use URL;
 
-class InsurancesController extends Controller
+class CustomerInsurancesController extends Controller
 {
     public function __construct()
     {
@@ -20,7 +22,10 @@ class InsurancesController extends Controller
     {
         $types = InsuranceType::pluck('name', 'id');
         $types->prepend(null);
-        return view('insurances.create', compact('types'));
+        $providers = Insurance::pluck('name', 'id');
+        $plans = Insurance::pluck('name', 'id');
+        $plans->prepend(null);
+        return view('customers.insurances.create', compact('plans', 'types', 'providers'));
     }
 
     public function store(Request $request)

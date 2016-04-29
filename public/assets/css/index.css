@@ -1,0 +1,27 @@
+body {
+	border-top: 8px solid rgb(232,131,52);
+	text-align: center;
+}
+
+.navbar-default .navbar-brand {
+	display: none;
+}
+
+.container_top_padding {
+	padding-top: 5%;
+}
+
+.navbar-default {
+    display: none;
+}
+
+@media (max-width: 640px){
+	
+	.container_top_padding {
+		padding-top: 10%;
+	}
+
+	.adjust {
+		font-size: 42pt;
+	}
+}
