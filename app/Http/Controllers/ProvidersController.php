@@ -14,6 +14,7 @@ class ProvidersController extends Controller
         $this->middleware('admin', ['except' => ['index', 'show']]);
     }
 
+    // shows list of providers
     public function index()
     {
         $providers = Provider::all();
@@ -21,18 +22,21 @@ class ProvidersController extends Controller
         return view('providers.index', compact('providers'));
     }
 
+    // shows details of each provider including plans
     public function show(Provider $provider)
     {
         return view('providers.show', compact('provider'));
     }
 
     // admin only
+    // shows create provider form
     public function create()
     {
         return view('providers.create');
     }
 
     // admin only
+    // processes create provider form
     public function store(Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -43,12 +47,14 @@ class ProvidersController extends Controller
     }
 
     // admin only
+    // shows edit provider form
     public function edit(Provider $provider)
     {
         return view('providers.edit', compact('provider'));
     }
 
     // admin only
+    // processes edit provider form
     public function update(Provider $provider, Request $request)
     {
         $rules = $this->getRules();
@@ -63,6 +69,7 @@ class ProvidersController extends Controller
     }
 
     // admin only
+    // processes delete provider
     public function destroy(Provider $provider, Request $request)
     {
         $provider->delete();
@@ -71,6 +78,7 @@ class ProvidersController extends Controller
         return redirect('providers');
     }
 
+    // validation rules
     private function getRules()
     {
         return [

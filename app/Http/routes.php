@@ -21,6 +21,7 @@ Route::get('about', ['middleware' => 'auth', 'uses' => 'PagesController@about'])
 Route::get('browse', ['middleware' => 'auth', 'uses' => 'PagesController@browse']);
 
 Route::resource('customers.requests', 'RequestsController', ['except' => ['index', 'show']]);
+Route::resource('customers.insurances', 'CustomerInsurancesController', ['except' => ['index', 'show']]);
 Route::resource('customers', 'CustomersController');
 Route::resource('requests', 'RequestsController', ['only' => ['index']]);
 Route::resource('providers.plans', 'InsurancesController', ['except' => ['index', 'show']]);

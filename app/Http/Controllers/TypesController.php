@@ -16,6 +16,7 @@ class TypesController extends Controller
     }
 
     // admin only
+    // shows list of insurance types
     public function index()
     {
         $types = InsuranceType::all();
@@ -24,12 +25,14 @@ class TypesController extends Controller
     }
 
     // admin only
+    // shows create insurance type form
     public function create()
     {
         return view('types.create');
     }
 
     // admin only
+    // processes create insurance type form
     public function store(Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -40,12 +43,14 @@ class TypesController extends Controller
     }
 
     // admin only
+    // shows edit insurance type form
     public function edit(InsuranceType $type)
     {
         return view('types.edit', compact('type'));
     }
 
     // admin only
+    // processes edit insurance type form
     public function update(InsuranceType $type, Request $request)
     {
         $rules = $this->getRules();
@@ -59,6 +64,7 @@ class TypesController extends Controller
     }
 
     // admin only
+    // processes delete insurance type
     public function destroy(InsuranceType $type, Request $request)
     {
         $type->delete();
@@ -67,6 +73,7 @@ class TypesController extends Controller
         return redirect(route('types.index'));
     }
 
+    // validation rules
     private function getRules()
     {
         return [

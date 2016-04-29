@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-	<h1>Providers <a href="{{ action('ProvidersController@create')}}" class="btn btn-primary">Add</a></h1>
+	<h1>Providers 
+	@if (Auth::user()->isAdmin())
+		<a href="{{ action('ProvidersController@create')}}" class="btn btn-primary">Add</a>
+	@endif
+	</h1>
 	<hr>
 	@foreach ($providers as $provider)
 		<article>

@@ -14,14 +14,6 @@ class Customer extends Model
         'phone_num',
     ];
 
-    protected $rules = [
-        'first_name' => 'required|alpha',
-        'last_name' => 'required|alpha',
-        'middle_name' => 'alpha',
-        'email' => 'unique:customers',
-        'phone_num' => 'required|unique:customers|regex:/^\+?[^a-zA-Z]{5,}$/'
-    ];
-
     public function insurances()
     {
         return $this->belongsToMany('App\Insurance', 'customer_insurances');

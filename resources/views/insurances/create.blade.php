@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	<h1>Add a New Insurance</h1>
+	<h1>Add a New Insurance Plan</h1>
 
 	<hr>
 

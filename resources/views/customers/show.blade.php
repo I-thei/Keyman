@@ -9,21 +9,39 @@
 			{{ $customer->phone_num }}
 		</content>
 	<br>
+	<h5>Insurances: <a href="{{ action('CustomerInsurancesController@create', [$customer->id]) }}" class="btn btn-primary">Add</a> </h5>
 	@unless ($customer->insurances->isEmpty())
-		<h5>Insurances:</h5>
-		<ul>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Provider</th>
+					<th>Type</th>
+					<th>Action</th>
+				</tr>
+			</thead>
 			@foreach ($customer->insurances as $insurance)
-				<li>{{ $insurance->name }}</li>
+				<tr>
+					<td>{{ $insurance->name }}</td>
+					<td>{{ $insurance->provider->name }}</td>
+					<td>{{ $insurance->insuranceType->name }}</td>
+					<td><a href="{{ action('CustomerInsurancesController@edit', [$customer->id, $insurance->id]) }}" class="btn btn-primary">Edit</a></td>
+				</tr>
 			@endforeach
-		</ul>
-
-		<h5>Requests: {{ $customer->total_requests }}</h5>
-		<ul>
-			@foreach ($customer->requests as $request)
-				<li>{{ $requests->insurance }}</li>
-				<li>{{ $requests->type }}</li>
-				<li>{{ $requests->status }}</li>
-			@endforeach
-		</ul>
+		</table>
 	@endunless
+	<ul>
+		@foreach ($customer->insurances as $insurance)
+			<li>{{ $insurance->name }}</li>
+		@endforeach
+	</ul>
+
+	<h5>Requests: {{ $customer->total_requests }}</h5>
+	<ul>
+		@foreach ($customer->requests as $request)
+			<li>{{ $request->insurance }}</li>
+			<li>{{ $request->type }}</li>
+			<li>{{ $request->status }}</li>
+		@endforeach
+	</ul>
 @stop

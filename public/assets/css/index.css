@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
 	border-top: 8px solid rgb(232,131,52);
 	text-align: center;
@@ -25,3 +26,32 @@ body {
 		font-size: 42pt;
 	}
 }
+=======
+body {
+	border-top: 8px solid rgb(233,130,51);
+	text-align: center;
+}
+
+.navbar-default .navbar-brand {
+	display: none;
+}
+
+.container_top_padding {
+	padding-top: 5%;
+}
+
+.navbar-default {
+    display: none;
+}
+
+@media (max-width: 640px){
+
+	.container_top_padding {
+		padding-top: 10%;
+	}
+
+	.adjust {
+		font-size: 42pt;
+	}
+}
+>>>>>>> 00dbeff3f1de52ccd0ff2081752ac8c14fe8d247

@@ -14,6 +14,7 @@ class CustomersController extends Controller
         $this->middleware('admin', ['only' => ['destroy']]);
     }
 
+    // shows list of customers
     public function index()
     {
         $customers = Customer::all();
@@ -21,16 +22,19 @@ class CustomersController extends Controller
         return view('customers.index', compact('customers'));
     }
 
+    // shows details of each customer inclusing insurance and requests
     public function show(Customer $customer)
     {
         return view('customers.show', compact('customer'));
     }
 
+    // shows create customer form
     public function create()
     {
         return view('customers.create');
     }
 
+    // processes create customer form to database
     public function store(Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -40,11 +44,13 @@ class CustomersController extends Controller
         return redirect('customers');
     }
 
+    // shows edit customer form
     public function edit(Customer $customer)
     {
         return view('customers.edit', compact('customer'));
     }
 
+    // processes edit customer form to database
     public function update(Customer $customer, Request $request)
     {
         $rules = $this->getRules();
@@ -59,6 +65,7 @@ class CustomersController extends Controller
     }
 
     // admin only
+    // processes delete customer to database
     public function destroy(Customer $customer, Request $request)
     {
         $customer->delete();
@@ -67,6 +74,7 @@ class CustomersController extends Controller
         return redirect('customers');
     }
 
+    // validation rules
     private function getRules()
     {
         return [
