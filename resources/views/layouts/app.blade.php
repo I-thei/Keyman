@@ -30,7 +30,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/browse') }}">
                     <img src="/assets/images/KeymanLogo.png" style="height:60px;">
                 </a>
             </div>
@@ -44,7 +44,8 @@
                     	<li><a href="{{ url('/providers') }}">PROVIDERS</a></li>
                     @endif
                     @if (Auth::check() && Auth::user()->isAdmin())
-                    	<li><a href="{{ url('/types') }}">Types</a></li>
+                        <li><a href="{{ url('/types') }}">TYPES</a></li>
+                    	<li><a href="{{ url('/users') }}">USERS</a></li>
                     @endif
                 </ul>
 

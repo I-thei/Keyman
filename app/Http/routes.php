@@ -14,6 +14,7 @@
 // Route::group(['middleware' => ['web']], function () {
 
 Route::auth();
+Route::resource('users', 'Auth\AuthController', ['only' => ['index', 'edit']]);
 
 Route::get('/', ['middleware' => 'guest', 'uses' => 'PagesController@index']);
 Route::get('account', ['middleware' => 'auth', 'uses' => 'PagesController@account']);
@@ -21,7 +22,7 @@ Route::get('about', ['middleware' => 'auth', 'uses' => 'PagesController@about'])
 Route::get('browse', ['middleware' => 'auth', 'uses' => 'PagesController@browse']);
 
 Route::resource('customers.requests', 'RequestsController', ['except' => ['index', 'show']]);
-Route::resource('customers.insurances', 'CustomerInsurancesController', ['except' => ['index', 'show']]);
+Route::resource('customers.insurances', 'CustomerInsurancesController', ['only' => ['create', 'store', 'destroy']]);
 Route::resource('customers', 'CustomersController');
 Route::resource('requests', 'RequestsController', ['only' => ['index']]);
 Route::resource('providers.plans', 'InsurancesController', ['except' => ['index', 'show']]);

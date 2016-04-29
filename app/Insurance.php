@@ -22,6 +22,7 @@ class Insurance extends Model
 
     public function customers()
     {
-        return $this->belongsToMany('App\Customer', 'customer_insurances');
+        return $this->belongsToMany('App\Customer', 'customer_insurances')
+            ->withTimestamps();
     }
 }

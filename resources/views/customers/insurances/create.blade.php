@@ -5,15 +5,7 @@
 
 	<hr>
 
-	@if (count($errors) > 0)
-	    <div class="alert alert-danger">
-	        <ul>
-	            @foreach ($errors->all() as $error)
-	                <li>{{ $error }}</li>
-	            @endforeach
-	        </ul>
-	    </div>
-	@endif
+	@include('errors._list')
 
 	{!! Form::open(['url' => 'customers/'. Request::segment(2) .'/insurances']) !!}
 		@include('customers.insurances._form', ['submitButtonText' => 'Add Insurance'])

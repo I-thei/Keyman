@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Customer;
-use App\InsuranceType;
 use App\Insurance;
-use App\Provider;
 use URL;
 
 class CustomerInsurancesController extends Controller
@@ -20,61 +18,40 @@ class CustomerInsurancesController extends Controller
 
     public function create()
     {
-        $types = InsuranceType::pluck('name', 'id');
-        $types->prepend(null);
-        $providers = Insurance::pluck('name', 'id');
         $plans = Insurance::pluck('name', 'id');
         $plans->prepend(null);
-        return view('customers.insurances.create', compact('plans', 'types', 'providers'));
+        return view('customers.insurances.create', compact('plans'));
     }
 
     public function store(Request $request)
     {
-        $provider = Provider::findOrFail($request->segment(2));
+        $customer = Customer::findOrFail($request->segment(2));
         $this->validate($request, $this->getRules());
-        $input = $request['type'];
-        $request->merge(['insurance_type_id' => $input]);
-        $insurance = $provider->insurances()->create($request->except(['type']));
+        $input = $request['name'];
+        $request->merge(['insurance_id' => $input]);
+        if (!$customer->insurances->contains($request['insurance_id'])) {
+            $customer->insurances()->attach($request->only(['insurance_id']));
+            flash()->success('Insurance has been added!');
+            return redirect()->route('customers.show', [$customer]);
+        }
+        flash()->error('Insurance already exists!');
+        return redirect()->route('customers.show', [$customer]);
 
-        flash()->success('Insurance Plan has been created!');
-        return redirect()->route('providers.show', [$provider]);
-    }
-
-    public function edit(Provider $provider, Insurance $insurance)
-    {
-        $types = InsuranceType::pluck('name', 'id');
-        $types = $types->all();
-        $selected = $insurance->insuranceType->id;
-
-        return view('insurances.edit', compact('insurance', 'types', 'selected'));
-    }
-
-    public function update(Provider $provider, Insurance $insurance, Request $request)
-    {
-        $this->validate($request, $this->getRules());
-        $input = $request['type'];
-        $request->merge(['insurance_type_id' => $input]);
-
-        $insurance->update($request->except(['type']));
-
-        flash()->success('Insurance Plan has been updated!');
-        return redirect()->route('providers.show', [$provider]);
     }
 
     // admin only
-    public function destroy(Provider $provider, Insurance $insurance)
+    public function destroy(Customer $customer, Insurance $insurance)
     {
-        $insurance->delete();
-
+        $customer->insurances()->detach($insurance->id);
         flash()->success('Insurance Plan has been deleted!');
-        return redirect()->route('providers.show', [$provider]);
+        return redirect()->route('customers.show', [$customer]);
     }
 
     private function getRules()
     {
         return [
-            'name' => 'required',
-            'type' => 'required|not_in:0'
+            'name' => 'required|not_in:0',
+            // 'type' => 'required|not_in:0'
         ];
     }
 }

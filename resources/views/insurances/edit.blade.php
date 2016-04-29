@@ -5,15 +5,7 @@
 	
 	<hr>
 
-	@if (count($errors) > 0)
-	    <div class="alert alert-danger">
-	        <ul>
-	            @foreach ($errors->all() as $error)
-	                <li>{{ $error }}</li>
-	            @endforeach
-	        </ul>
-	    </div>
-	@endif
+	@include('errors._list')
 
 	{!! Form::model($insurance, ['method' => 'PATCH', 'action' => ['InsurancesController@update', $insurance->provider->id, $insurance->id]]) !!}
 		@include('insurances._form', ['submitButtonText' => 'Update Insurance'])

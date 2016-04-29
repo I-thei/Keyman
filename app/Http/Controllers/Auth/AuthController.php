@@ -28,7 +28,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'browse';
+    protected $redirectTo = '/browse';
 
     /**
      * Create a new authentication controller instance.
@@ -37,7 +37,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware($this->guestMiddleware(), ['except' => ['logout', 'index']]);
     }
 
     /**
@@ -51,6 +51,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'phone_num' => 'numeric|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -66,6 +67,7 @@ class AuthController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone_num' => $data['phone_num'],
             'password' => bcrypt($data['password']),
         ]);
     }
@@ -73,5 +75,17 @@ class AuthController extends Controller
     public function showRegistrationForm()
     {
         return view('auth.register');
+    }
+
+    public function index()
+    {
+        $users = User::all();
+        return view('auth.index', compact('users'));
+    }
+
+    public function edit()
+    {
+        $users = User::all();
+        return view('auth.index', compact('users'));
     }
 }

@@ -1,15 +1,14 @@
 		<fieldset class="form-group">
-			
 			{!! Form::label('name', 'Name:') !!}
 			{!! Form::text('name', null, ['class' => 'form-control']) !!}
 		</fieldset>
+
 		<fieldset class="form-group">
-			
 			{!! Form::label('type', 'Type:') !!}
 			{!! Form::select('type', $types, isset($selected) ? $selected : 0, ['class' => 'form-control', 'id' => 'type-select']) !!}
 		</fieldset>
+		
 		<fieldset class="form-group"> 
-			
 			{!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}
 		</fieldset>
 
@@ -19,6 +18,5 @@
 					// placeholder: "*Select a Type*",
 	  		// 		allowClear: false
 				});
-				$('#type-select ')
 			</script>
 		@stop

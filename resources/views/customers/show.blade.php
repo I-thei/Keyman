@@ -17,7 +17,9 @@
 					<th>Name</th>
 					<th>Provider</th>
 					<th>Type</th>
+					@if (Auth::user()->isAdmin())
 					<th>Action</th>
+					@endif
 				</tr>
 			</thead>
 			@foreach ($customer->insurances as $insurance)
@@ -25,16 +27,19 @@
 					<td>{{ $insurance->name }}</td>
 					<td>{{ $insurance->provider->name }}</td>
 					<td>{{ $insurance->insuranceType->name }}</td>
-					<td><a href="{{ action('CustomerInsurancesController@edit', [$customer->id, $insurance->id]) }}" class="btn btn-primary">Edit</a></td>
+					<td>
+						@if (Auth::user()->isAdmin())
+							{!! Form::open(['method' => 'DELETE', 'action' => ['CustomerInsurancesController@destroy', $customer->id, $insurance->id], 'id' => 'deleteForm']) !!}
+								<fieldset class="form-group"> 
+									{!! Form::submit('Remove Insurance', ['class' => 'btn btn-danger']) !!}
+								</fieldset>
+							{!! Form::close() !!}
+						@endif
+					</td>
 				</tr>
 			@endforeach
 		</table>
 	@endunless
-	<ul>
-		@foreach ($customer->insurances as $insurance)
-			<li>{{ $insurance->name }}</li>
-		@endforeach
-	</ul>
 
 	<h5>Requests: {{ $customer->total_requests }}</h5>
 	<ul>
@@ -44,4 +49,12 @@
 			<li>{{ $request->status }}</li>
 		@endforeach
 	</ul>
+@stop
+
+@section('footer')
+	<script>
+	    $("#deleteForm").on("submit", function(){
+	        return confirm("Do you want to delete this item?");
+	    });
+	</script>
 @stop
