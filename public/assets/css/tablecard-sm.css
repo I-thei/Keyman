@@ -65,7 +65,7 @@
     }
 }
 
-@media (min-width: 420px) {
+/*@media (min-width: 420px) {
 	tr#override > td:nth-child(even){
 		float:right;
 	}
@@ -75,4 +75,4 @@
 	tr#override > td{
 		width: 50%;
 	}
-}
+}*/

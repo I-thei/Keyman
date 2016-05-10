@@ -23,7 +23,7 @@
 				{{ $customer->email }}<br />
 				{{ $customer->phone_num }}<br />
 				<a id="editButton" href ="{{ action('CustomersController@edit', [$customer->id])}}" class="btn addButton" style="padding:0;font-size:12px;color:rgb(233,130,51);height: 20px;">
-					EDIT ACCOUNT
+					EDIT PROFILE
 				</a>
 			</div>
 		</div>
@@ -48,6 +48,7 @@
 					<th>Insurance Plan</th>
 					<th>Provider</th>
 					<th>Type</th>
+					<th>Valid Until</th>
 					@if (Auth::user()->isAdmin())
 						<th></th>
 					@endif
@@ -59,6 +60,7 @@
 					<td>{{ $insurance->name }}</td>
 					<td><a href="{{ action('ProvidersController@show', [$insurance->provider->id]) }}" class="">{{ $insurance->provider->name }}</a></td>
 					<td>{{ $insurance->insuranceType ? $insurance->insuranceType->name : '' }}</td>
+					<td>{{ explode(' ', $insurance->pivot->valid_until)[0] }}</td>
 					@if (Auth::user()->isAdmin())
 						<td id ="buttonContainer">
 							{!! Form::open(['method' => 'DELETE', 'action' => ['CustomerInsurancesController@destroy', $customer->id, $insurance->id], 'class' => 'deleteForm']) !!}
@@ -76,7 +78,9 @@
 	<br />
 
 	<div id ="add" class= "form-group" style="display: inline-flex; margin-bottom: 0;">
-		<h3 style="width: initial; font-size: 36px; margin: 0; margin-bottom: -20px;">Requests: {{ $customer->total_requests }}</h3>
+		<h3 style="width: initial; font-size: 36px; margin: 0; margin-bottom: -20px;">Requests: {{ $customer->total_requests }} </h3>
+		&nbsp;
+		<h4>( Early: {{ $count['early'] }} | Overdue: {{ $count['overdue'] }} | On Time: {{ $count['on time'] }} )</h4>
 		<a href="{{ action('RequestsController@create', [$customer->id])}}" style="text-align: center; margin-top: 2%;" class="btn addButton"> 
 			<i>+ Add Request </i>
 		</a>

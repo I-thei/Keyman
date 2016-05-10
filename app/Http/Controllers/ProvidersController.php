@@ -81,8 +81,15 @@ class ProvidersController extends Controller
     public function destroy(Provider $provider, Request $request)
     {
         $name = $provider->name;
+        foreach ($provider->insurances as $insurance) {
+            $customers = $insurance->customers;
+            $insurance->delete();
+            foreach ($customers as $customer) {
+                $customer->total_requests = $customer->requests()->count();
+                $customer->save();
+            }
+        }
         $provider->delete();
-
         flash()->success($name . ' has been deleted!');
         return redirect('providers');
     }
@@ -110,8 +117,8 @@ class ProvidersController extends Controller
             $providers = Provider::orderBy($sortby, $order)->get();
 
         } else {
-            $sortby = null;
-            $providers = Provider::orderBy('name', $order)->get();
+            $sortby = 'name';
+            $providers = Provider::orderBy($sortby, $order)->get();
         }
 
         return ['sortby' => $sortby, 'order' => $order, 'providers' => $providers];

@@ -22,7 +22,7 @@
 			{{ Auth::user()->email }}<br />
 			{{ Auth::user()->phone_num }}<br />
 			<a id="editButton" href ="{{ action('Auth\AuthController@edit', [Auth::user()->id])}}" style="color:rgb(233,130,51);height: 20px;">
-				 EDIT PROFILE
+				 EDIT ACCOUNT
 			</a>
 		</div>
 	</div>

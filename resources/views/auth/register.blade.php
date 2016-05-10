@@ -13,7 +13,7 @@
     <div class="col-md-8 col-md-offset-2">
         <div class= "panel panel-default">
             {!! Form::open(['url' => '/register', 'class'=>'form-horizontal']) !!}
-                @include('auth._form', ['submitButtonText' => 'Register'])
+                @include('auth._form', ['submitButtonText' => 'Register', 'passwordText' => 'Password:'])
             {!! Form::close() !!}
         </div>
     </div>

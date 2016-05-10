@@ -5,7 +5,8 @@
 		</fieldset>
 
 		<fieldset class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-			{!! Form::label('type', 'Type:', ['class' => 'label-requests col-sm-3']) !!}
+
+			{!! Form::label('type', 'Type:', ['class' => 'label-requests col-xs-3']) !!}
 			{!! Form::select('type', $types, isset($selected) ? $selected : 0, ['class' => 'col-sm-9 form-control','id' => 'type-select']) !!}
 		</fieldset>
 		

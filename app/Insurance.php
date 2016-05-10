@@ -23,6 +23,7 @@ class Insurance extends Model
     public function customers()
     {
         return $this->belongsToMany('App\Customer', 'customer_insurances')
+            ->withPivot('valid_until')
             ->withTimestamps();
     }
     

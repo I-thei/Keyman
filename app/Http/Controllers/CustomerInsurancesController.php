@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Customer;
 use App\Insurance;
 use URL;
+use Carbon\Carbon;
 
 class CustomerInsurancesController extends Controller
 {
@@ -31,8 +32,10 @@ class CustomerInsurancesController extends Controller
         $this->validate($request, $this->getRules());
         $input = $request['name'];
         $request->merge(['insurance_id' => $input]);
+        $valid = Carbon::now()->addYear()->toDateTimeString();
+        
         if (!$customer->insurances->contains($request['insurance_id'])) {
-            $customer->insurances()->attach($request->only(['insurance_id']));
+            $customer->insurances()->attach($request['insurance_id'], ['valid_until' => $valid]);
             flash()->success(Insurance::findOrFail($request['insurance_id'])->name . ' has been added!');
             return redirect()->route('customers.show', [$customer]);
         }

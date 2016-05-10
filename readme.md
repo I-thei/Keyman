@@ -21,3 +21,11 @@
 10. `php artisan migrate`
 11. `php artisan serve`
 12. and there you go!
+
+### Important folders and files
+- app (model files)
+- app\Http\Controllers (controller methods)
+- app\Http\routes.php (routes)
+- database\migrations (database tables)
+- public\assets (styles, scripts, fonts)
+- resources\views (pages)

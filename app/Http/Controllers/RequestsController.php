@@ -92,21 +92,22 @@ class RequestsController extends Controller
 
     public function complete(Request $request, Customer $customer, KeymanRequest $krequest)
     {
-        $tdate = $krequest->turnaround_date;
+        $tdate = $krequest->turnaround_date->startOfDay();
 
         if (Carbon::now()->startOfDay()->gt($tdate)) {
-            $completed = ' (overdue)';
+            $completed = 'overdue';
 
         } elseif (Carbon::now()->startOfDay()->lt($tdate)) {
-            $completed = ' (early)';
+            $completed = 'early';
 
         } else {
-            $completed = ' (on time)';
+            $completed = 'on time';
         }
 
 
-        $krequest->users()->sync([\Auth::user()->id => ['progress' => date('Y-m-d'). $completed]]);
+        $krequest->users()->sync([\Auth::user()->id => ['progress' => $completed]]);
         $krequest->status = 'COMPLETED';
+        $krequest->turnaround_date = Carbon::now()->toDateTimeString();
         $krequest->save();
 
         flash()->info('Notify ' . $customer->fullName . ' at ' . $customer->email .' or ' . $customer->phone_num);
@@ -147,8 +148,9 @@ class RequestsController extends Controller
             }
 
         } else {
-            $sortby = '';
-            $requests = KeymanRequest::all();
+            $sortby = 'id';
+            $order = 'desc';
+            $requests = KeymanRequest::orderBy($sortby, $order)->get();
         }
 
         return ['sortby' => $sortby, 'order' => $order, 'requests' => $requests];

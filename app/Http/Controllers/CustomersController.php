@@ -42,7 +42,11 @@ class CustomersController extends Controller
         $showCustomer = false;
         $old = $customer->requests;
         $requests = $out['requests']->intersect($old);
-        return view('customers.show', compact('customer', 'showUser', 'showCustomer', 'requests', 'sortby', 'order', 'sortMethod', 'attach'));
+
+        $count = $this->countRequests($customer);
+
+
+        return view('customers.show', compact('customer', 'showUser', 'showCustomer', 'requests', 'sortby', 'order', 'sortMethod', 'attach', 'count'));
     }
 
     // shows create customer form
@@ -122,10 +126,33 @@ class CustomersController extends Controller
             }
 
         } else {
-            $sortby = '';
+            $sortby = 'name';
             $customers = Customer::orderByName($order)->get();
         }
 
         return ['sortby' => $sortby, 'order' => $order, 'customers' => $customers];
+    }
+
+    private function countRequests(Customer $customer)
+    {
+        $completedList = $customer->requests()->where('status', '=', 'COMPLETED')->get();
+        $overdue = 0;
+        $early = 0;
+        $onTime = 0;
+        foreach ($completedList as $completed) {
+            $ideal = $completed->created_at->addDays($completed->type->ideal_turnaround)->startOfDay();
+
+            if ($completed->turnaround_date->startOfDay()->gt($ideal)) {
+                $overdue += 1;
+
+            } elseif ($completed->turnaround_date->startOfDay()->lt($ideal)) {
+                $early += 1;
+
+            } else {
+                $onTime += 1;
+            }
+        }
+
+        return ['overdue' => $overdue, 'early' => $early, 'on time' => $onTime];
     }
 }

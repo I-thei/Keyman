@@ -36,8 +36,6 @@ class CreateCustomerInsurancesTable extends Migration
      */
     public function down()
     {
-        // DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::drop('customer_insurances');
-        // DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

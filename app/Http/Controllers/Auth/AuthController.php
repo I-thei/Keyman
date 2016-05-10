@@ -108,6 +108,7 @@ class AuthController extends Controller
         $rules['name'] = 'required|max:255|unique:users' . ',id,' . \Auth::id();
         $rules['email'] = 'required|email|max:255|unique:users' . ',id,' . \Auth::id();
         $rules['phone_num'] = 'required|numeric|unique:users' . ',id,' . \Auth::id();
+        $rules['password'] = 'min:6|confirmed';
         $this->validate($request, $rules);
 
         $request['password'] = bcrypt($request['password']);
@@ -164,8 +165,8 @@ class AuthController extends Controller
             $users = User::orderBy($sortby, $order)->get();
 
         } else {
-            $sortby = null;
-            $users = User::orderBy('name', $order)->get();
+            $sortby = 'name';
+            $users = User::orderBy($sortby, $order)->get();
         }
 
         return ['sortby' => $sortby, 'order' => $order, 'users' => $users];

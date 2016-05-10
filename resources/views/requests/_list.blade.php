@@ -171,7 +171,7 @@
 						@if ($sortby == 'turnaround' && $order == 'asc') {!!
 		                     link_to_action(
 		                            $sortMethod,
-		                            'ideal turnaround',
+		                            '(ideal) turnaround',
 		                            [
 		                                isset($attach) ? $attach : null,
 		                                'sortby' => 'turnaround',
@@ -183,7 +183,7 @@
 	                    @elseif ($sortby == 'turnaround' && $order == 'desc') {!!
 	                        link_to_action(
 	                            $sortMethod,
-	                            'ideal turnaround',
+	                            '(ideal) turnaround',
 	                            [
 	                                isset($attach) ? $attach : null,
 	                                'sortby' => 'turnaround',
@@ -196,7 +196,7 @@
 	                     {!!
 	                        link_to_action(
 	                            $sortMethod,
-	                            'ideal turnaround',
+	                            '(ideal) turnaround',
 	                            [
 	                                isset($attach) ? $attach : null,
 	                                'sortby' => 'turnaround',
@@ -438,7 +438,7 @@
 		                    !!}">Request </a>
                 		@endif
 					</th>
-					<th style="width: 15%">
+					<th style="width: 16%">
 						@if ($sortby == 'turnaround' && $order == 'asc') 
 								<a href="{!! action(
 			                    	$sortMethod,
@@ -448,7 +448,7 @@
 			                                'order' => 'desc',
 			                            ]
 			                        )
-			                    !!}">ideal turnaround <i class="fa fa-caret-up" aria-hidden="true"></i></a>
+			                    !!}">(ideal) turnaround <i class="fa fa-caret-up" aria-hidden="true"></i></a>
 
 	                    @elseif($sortby == 'turnaround' && $order == 'desc')
 	                    	 <a href="{!!
@@ -460,7 +460,7 @@
 		                                'order' => 'asc',
 		                            ]
 		                        )
-		                    !!}">ideal turnaround <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		                    !!}">(ideal) turnaround <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 	                    @else
 	                    	<a href="{!! action(
 		                            $sortMethod,
@@ -470,7 +470,7 @@
 		                                'order' => 'desc',
 		                            ]
 		                        )
-		                    !!}">ideal turnaround </a>
+		                    !!}">(ideal) turnaround </a>
                 		@endif
 					</th>
 					@if ($showUser)
@@ -570,18 +570,14 @@
 					<td>
 						@if ($krequest->status == 'COMPLETED')
 							<div style="color: green;">{{ $krequest->status }}</div>
-						@elseif ($krequest->status == 'PENDING')
-							@if (Carbon\Carbon::now()->startOfDay()->gt($krequest->turnaround_date))
+						@elseif (Carbon\Carbon::now()->startOfDay()->gt($krequest->turnaround_date->startOfDay()))
 							<div style="color: red;">{{ 'OVERDUE' }}</div>
-							@else
+						@elseif (Carbon\Carbon::now()->startOfDay()->eq($krequest->turnaround_date->startOfDay()))
+							<div style="color: #ff5719">{{ 'URGENT' }}</div>
+						@elseif ($krequest->status == 'PENDING')
 							<div style="color: orange;">{{ $krequest->status }}</div>
-							@endif
 						@elseif ($krequest->status == 'ONGOING')
-							@if (Carbon\Carbon::now()->startOfDay()->eq($krequest->turnaround_date))
-								<div style="color: #ff5719">{{ 'URGENT' }}</div>
-							@else
 								<div style="color: #00e2e2">{{ $krequest->status }}</div>
-							@endif
 						@else
 							{{ $krequest->status }}
 						@endif
