@@ -5,7 +5,7 @@
 @section('content')
 <hr>
     @include('errors._list')
-    <div class="col-sm-6 col-sm-3 col-sm-offset-2">
+    <div class="col-md-3 col-md-offset-2">
         <div class="title-box">
             <center>Register User</center>
         </div>

@@ -324,7 +324,7 @@
 				@if (Auth::user()->isAdmin())
 				    <td id="buttonContainer">
                         <a href="{{ action('CustomersController@edit', [$customer->id]) }}" class="btn btn-primary">
-                            EDIT <i class ="fa fa-btn fa-edit fa-lg"></i>
+                            EDIT
                         </a>
                     </td>
 				@endif

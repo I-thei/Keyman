@@ -1,11 +1,40 @@
 .form-control {
     text-align: left;
     font-family: 'Nav';
-    width: 75%;
+    width: 70%;
+}
+
+@media (max-width: 386px) {
+    .btn.btn-primary{
+        margin-left: auto !important;
+    }
+    .btn.btn-danger{
+        margin-left: auto !important;   
+    }
+}
+
+.label-requests{
+    color: rgb(0,77,139);
+    text-align: right;
+    padding-top: 7px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 4px;
+}
+
+
+@media (max-width: 767px){
+    .form-control {
+        width: 100%;
+    }
+    .label-requests{
+        text-align: left;
+        padding-top: 0;
+    }
 }
 
 .navbar-default {
-    display: show;
+    display: initial;
 }
 
 a.btn.btn-link {
@@ -16,7 +45,7 @@ a.btn.btn-link {
 }
 
 .form-group {
-    padding: 2% 12% 0% 12%;
+    padding: 2% 2% 0% 2%;
 }
 
 .panel-default{
@@ -27,22 +56,15 @@ a.btn.btn-link {
 }
 
 .btn.btn-primary {
-    width: 25%;
+    width: 33.333%;
     min-width: 96px;
     text-align: center;
 }
 .btn.btn-danger{
-    width: 25%;
+    width: 33.333%;
     min-width: 96px;
     text-align: center;
 } 
-
-.label-requests{
-    color: rgb(0,77,139);
-    text-align: right;
-    padding-top: 7px;
-}
-
 
 .checkbox {
     margin-left: 38.5%;

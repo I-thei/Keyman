@@ -4,7 +4,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-sm-8 col-sm-offset-2">
+    <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading"></div>
             <div class="panel-body">
@@ -51,7 +51,7 @@
                     <br />
 
                     <div class="form-group center">
-                        <div class="col-sm-8 col-sm-offset-2">
+                        <div class="col-md-8 col-md-offset-2">
                             <button type="submit" class="btn btn-primary center">
                                 LOG IN
                             </button>

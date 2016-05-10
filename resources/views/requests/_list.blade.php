@@ -565,7 +565,7 @@
 					<td style="text-transform: uppercase;">{{ $krequest->type ? $krequest->type->name : ''}}</td>
 					<td>{{ explode(' ', $krequest->turnaround_date)[0] }}</td>
 					@if ($showUser)
-						<td style="text-align: left;"><a href="{{ action('Auth\AuthController@show', [$krequest->users()->first()->id]) }}" class="">{{ $krequest->users()->first()->name }}</a></td>
+						<td><a href="{{ action('Auth\AuthController@show', [$krequest->users()->first()->id]) }}" class="">{{ $krequest->users()->first()->name }}</a></td>
 					@endif
 					<td>
 						@if ($krequest->status == 'COMPLETED')

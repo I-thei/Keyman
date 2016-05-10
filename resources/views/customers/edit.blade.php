@@ -7,12 +7,12 @@
 
 	@include('errors._list')
 
-	<div class="col-sm-6 col-sm-3 col-sm-offset-2">
+	<div class="col-md-3 col-md-offset-2">
 		<div class="title-box">
 			<center>Edit: {!! $customer->fullName  !!}</center>
 		</div>
 	</div>
-	<div class="col-sm-8 col-sm-offset-2">
+	<div class="col-md-8 col-md-offset-2">
 		<div class= "panel panel-default">
 
 	{!! Form::model($customer, ['method' => 'PATCH', 'action' => ['CustomersController@update', $customer->id]]) !!}
@@ -22,8 +22,7 @@
 	@if (Auth::user()->isAdmin())
 		{!! Form::open(['method' => 'DELETE', 'action' => ['CustomersController@destroy', $customer->id], 'class' => 'deleteForm']) !!}
 			<fieldset class="form-group" style="padding-top: 0;">
-				{!! Form::label('', '', ['class' => 'label-requests col-sm-6 col-sm-3 col-sm-offset-6']) !!}
-				{!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+				{!! Form::submit('Delete', ['class' => 'btn btn-danger col-xs-offset-4']) !!}
 			</fieldset>
 		{!! Form::close() !!}
 	@endif

@@ -41,7 +41,7 @@
 				<td>{{ $type->ideal_turnaround . ' day' }}{{ $type->ideal_turnaround == 1 ? '' : 's'}}</td>
 				<td id ="buttonContainer">
 					<a href="{{ action('RequestTypesController@edit', [$type->id]) }}" class="btn btn-primary">
-						EDIT <i class ="fa fa-btn fa-edit fa-lg"></i>
+						EDIT
 					</a>
 				</td>
 			</tr>
