@@ -12,26 +12,20 @@ use App\Provider;
 
 class PagesController extends Controller
 {
+    /**
+     * Launch Page
+     * @return view
+     */
     public function index()
     {
         return view('index');
     }
 
-    public function about()
-    {
-        return view('about');
-    }
-
-    public function browse()
-    {
-        $customers = Customer::select(DB::raw("CONCAT(first_name, ' ', last_name, ', ', middle_name) AS full_name, id"))
-            ->pluck('full_name', 'id');
-        $customers->prepend(null, 0);
-        $providers = Provider::pluck('name', 'id');
-        $providers->prepend(null, 0);
-        return view('browse', compact('customers', 'providers'));
-    }
-
+    /**
+     * Account Page for logged in User
+     * @param  Request $request
+     * @return view
+     */
     public function account(Request $request)
     {
         $out = (new RequestsController)->sort($request);
@@ -45,8 +39,5 @@ class PagesController extends Controller
         $requests = $out['requests']->intersect($old);
         
         return view('account', compact('showUser', 'showCustomer', 'requests', 'sortby', 'order', 'sortMethod'));
-
-
-
     }
 }

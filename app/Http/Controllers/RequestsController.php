@@ -14,6 +14,11 @@ use Carbon\Carbon;
 
 class RequestsController extends Controller
 {
+    /**
+     * Shows Sorted list of Requests
+     * @param  Request $request
+     * @return view
+     */
     public function index(Request $request)
     {
         $out = $this->sort($request);
@@ -28,6 +33,11 @@ class RequestsController extends Controller
         return view('requests.index', compact('requests', 'showUser', 'showCustomer', 'sortby', 'order', 'sortMethod'));
     }
 
+    /**
+     * Shows Add new Request to Customer form
+     * @param  Request $request
+     * @return view
+     */
     public function create(Request $request)
     {
         $customer = Customer::findOrFail($request->segment(2));
@@ -36,9 +46,16 @@ class RequestsController extends Controller
         $plans->prepend(null, 0);
         $types = RequestType::pluck('name', 'id');
         $types->prepend(null, 0);
+
         return view('customers.requests.create', compact('types', 'plans', 'customer'));
     }
 
+    /**
+     * Adds Request to Customer after validation
+     * @param  Request  $request
+     * @param  Customer $customer
+     * @return refirect to Customer Details page
+     */
     public function store(Request $request, Customer $customer)
     {
         $this->validate($request, $this->getRules());
@@ -67,6 +84,14 @@ class RequestsController extends Controller
         return redirect()->route('customers.show', [$customer]);
     }
 
+    /**
+     * Sets Status To Pending
+     * Flashes Provider Info
+     * @param  Request       $request
+     * @param  Customer      $customer
+     * @param  KeymanRequest $krequest
+     * @return redirects to previous page
+     */
     public function update(Request $request, Customer $customer, KeymanRequest $krequest)
     {
         $krequest->users()->sync([\Auth::user()->id => ['progress' => 'sent request']]);
@@ -78,7 +103,14 @@ class RequestsController extends Controller
         return redirect()->back();
     }
 
-    // admin only
+    /**
+     * Deletes Request
+     * Admin Only
+     * @param  Request       $request
+     * @param  Customer      $customer
+     * @param  KeymanRequest $krequest
+     * @return redirects to previous page
+     */
     public function destroy(Request $request, Customer $customer, KeymanRequest $krequest)
     {
         $krequest->users()->detach();
@@ -90,6 +122,13 @@ class RequestsController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Sets Status to Complete
+     * @param  Request       $request
+     * @param  Customer      $customer
+     * @param  KeymanRequest $krequest
+     * @return redirects to previous page
+     */
     public function complete(Request $request, Customer $customer, KeymanRequest $krequest)
     {
         $tdate = $krequest->turnaround_date->startOfDay();
@@ -114,6 +153,10 @@ class RequestsController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Validation Rules
+     * @return array
+     */
     private function getRules()
     {
         return [
@@ -122,6 +165,11 @@ class RequestsController extends Controller
         ];
     }
 
+    /**
+     * Helper method to sort Requests list
+     * @param  Request $request
+     * @return array
+     */
     public function sort(Request $request)
     {
         // sortby = id, customer, insurance, type, turnaround, consultant, status

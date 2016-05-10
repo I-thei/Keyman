@@ -11,21 +11,10 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
-    */
-
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
-     * Where to redirect users after login / registration.
+     * Where to redirect users after login
      *
      * @var string
      */
@@ -42,7 +31,10 @@ class AuthController extends Controller
         $this->middleware('admin', ['only' => ['showRegistrationForm', 'register', 'setAdmin', 'index']]);
     }
 
-    // validation rules
+    /**
+     * Validation Rules
+     * @return array
+     */
     private function getRules()
     {
         return [
@@ -69,11 +61,20 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Shows New User form for Admins only
+     * @return view
+     */
     public function showRegistrationForm()
     {
         return view('auth.register');
     }
 
+    /**
+     * Creates new User after validation
+     * @param  Request $request
+     * @return redirect to User list
+     */
     public function register(Request $request)
     {
         $rules = $this->getRules();
@@ -85,6 +86,11 @@ class AuthController extends Controller
         return redirect('users');
     }
 
+    /**
+     * Shows sorted list of registered Users
+     * @param  Request $request
+     * @return view
+     */
     public function index(Request $request)
     {
         $out = $this->sort($request);
@@ -94,14 +100,29 @@ class AuthController extends Controller
 
         $old = User::all();
         $users = $out['users']->intersect($old);
+
         return view('auth.index', compact('users', 'sortby', 'order', 'sortMethod'));
     }
 
+    /**
+     * Shows Edit Account form for logged in User
+     * @param  User   $user
+     * @return view
+     */
     public function edit(User $user)
     {
+        if ($user->id != \Auth::id()) {
+            return redirect('users');
+        }
+
         return view('auth.edit', compact('user'));
     }
     
+    /**
+     * Updates User info after validation
+     * @param  Request $request
+     * @return redirect back to account
+     */
     public function update(Request $request)
     {
         $rules = $this->getRules();
@@ -118,6 +139,12 @@ class AuthController extends Controller
         return redirect('account');
     }
 
+    /**
+     * Show details page of a User
+     * @param  Request $request
+     * @param  User    $user
+     * @return view
+     */
     public function show(Request $request, User $user)
     {
         if ($user->id == \Auth::id()) {
@@ -138,6 +165,11 @@ class AuthController extends Controller
         return view('auth.show', compact('user', 'showUser', 'showCustomer', 'requests', 'sortby', 'order', 'sortMethod', 'attach'));
     }
 
+    /**
+     * Sets or Unsets User as Admin
+     * @param User $user
+     * @return redirect back to Users list
+     */
     public function setAdmin(User $user)
     {
         $s = "set";
@@ -153,6 +185,11 @@ class AuthController extends Controller
         return redirect('users');
     }
 
+    /**
+     * Helper method to sort Users in Users list
+     * @param  Request $request
+     * @return array
+     */
     private function sort(Request $request)
     {
         // sortby = is_admin, name, email
@@ -161,13 +198,10 @@ class AuthController extends Controller
         if (!$order) {
             $order = 'asc';
         }
-        if ($sortby) {
-            $users = User::orderBy($sortby, $order)->get();
-
-        } else {
+        if (!$sortby) {
             $sortby = 'name';
-            $users = User::orderBy($sortby, $order)->get();
         }
+        $users = User::orderBy($sortby, $order)->get();
 
         return ['sortby' => $sortby, 'order' => $order, 'users' => $users];
     }

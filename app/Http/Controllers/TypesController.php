@@ -15,8 +15,11 @@ class TypesController extends Controller
         $this->middleware('admin');
     }
 
-    // admin only
-    // shows list of insurance types
+    /**
+     * Shows Alphabetical list of Insurance Types
+     * Admin Only
+     * @return view
+     */
     public function index()
     {
         $types = InsuranceType::orderBy('name')->get();
@@ -24,15 +27,22 @@ class TypesController extends Controller
         return view('types.index', compact('types'));
     }
 
-    // admin only
-    // shows create insurance type form
+    /**
+     * Shows Add new Insurance Type form
+     * Admin Only
+     * @return view
+     */
     public function create()
     {
         return view('types.create');
     }
 
-    // admin only
-    // processes create insurance type form
+    /**
+     * Add new Insurance Type after validation
+     * Admin Only
+     * @param  Request $request
+     * @return redirect to Insurance Types list
+     */
     public function store(Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -42,15 +52,24 @@ class TypesController extends Controller
         return redirect('types');
     }
 
-    // admin only
-    // shows edit insurance type form
+    /**
+     * Shows Edit Insurance Type form
+     * Admin Only
+     * @param  InsuranceType $type
+     * @return view
+     */
     public function edit(InsuranceType $type)
     {
         return view('types.edit', compact('type'));
     }
 
-    // admin only
-    // processes edit insurance type form
+    /**
+     * Updates Insurance Type after Validation
+     * Admin Only
+     * @param  InsuranceType $type
+     * @param  Request       $request
+     * @return redirect to Insurance Types list
+     */
     public function update(InsuranceType $type, Request $request)
     {
         $rules = $this->getRules();
@@ -60,23 +79,31 @@ class TypesController extends Controller
         $type->update($request->all());
 
         flash()->success('Type: ' . $type->name . ' has been updated!');
-        return redirect(route('types.index'));
+        return redirect('types');
     }
 
-    // admin only
-    // processes delete insurance type
+    /**
+     * Deletes Insurance Type and sets foreign keys to null
+     * @param  InsuranceType $type
+     * @param  Request       $request
+     * @return redirect to Insurance Types list
+     */
     public function destroy(InsuranceType $type, Request $request)
     {
         $type->delete();
 
         flash()->success('Type: ' . $type->name . ' has been deleted!');
-        return redirect(route('types.index'));
+        return redirect('types');
     }
 
-    // validation rules
+    /**
+     * Validation Rules
+     * @return array
+     */
     private function getRules()
     {
         return [
+            //alpha+space
             'name' => 'required|regex:/^[(a-zA-Z\s)]+$/u|unique:insurance_types'
         ];
     }

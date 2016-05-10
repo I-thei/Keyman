@@ -15,8 +15,11 @@ class RequestTypesController extends Controller
         $this->middleware('admin');
     }
 
-    // admin only
-    // shows list of request types
+    /**
+     * Shows Alphabetical list of RequestTypes
+     * Admin Only
+     * @return view
+     */
     public function index()
     {
         $types = RequestType::orderBy('name')->get();
@@ -24,15 +27,22 @@ class RequestTypesController extends Controller
         return view('request_types.index', compact('types'));
     }
 
-    // admin only
-    // shows create request type form
+    /**
+     * Shows Add new Request Type form
+     * Admin Only
+     * @return view
+     */
     public function create()
     {
         return view('request_types.create');
     }
 
-    // admin only
-    // processes create request type form
+    /**
+     * Adds Request Type after validation
+     * Admin Only
+     * @param  Request $request
+     * @return redirect to Request Types list
+     */
     public function store(Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -42,15 +52,24 @@ class RequestTypesController extends Controller
         return redirect('request_types');
     }
 
-    // admin only
-    // shows edit request type form
+    /**
+     * Shows Edit Request Type form
+     * Admin Only
+     * @param  RequestType $type
+     * @return view
+     */
     public function edit(RequestType $type)
     {
         return view('request_types.edit', compact('type'));
     }
 
-    // admin only
-    // processes edit request type form
+    /**
+     * Updates Request Type after validation
+     * Admin Only
+     * @param  RequestType $type
+     * @param  Request     $request
+     * @return redirect to Request Types list
+     */
     public function update(RequestType $type, Request $request)
     {
         $rules = $this->getRules();
@@ -60,23 +79,31 @@ class RequestTypesController extends Controller
         $type->update($request->all());
 
         flash()->success($type->name . ' has been updated!');
-        return redirect(route('request_types.index'));
+        return redirect('request_types');
     }
 
-    // admin only
-    // processes delete request type
+    /**
+     * Deletes Request Types and sets foreign keys to null
+     * @param  RequestType $type
+     * @param  Request     $request
+     * @return redirect to Request Types list
+     */
     public function destroy(RequestType $type, Request $request)
     {
         $type->delete();
 
         flash()->success($type->name . ' has been deleted!');
-        return redirect(route('request_types.index'));
+        return redirect('request_types');
     }
 
-    // validation rules
+    /**
+     * Validation Rules
+     * @return array
+     */
     private function getRules()
     {
         return [
+            // alphabetical + spaces
             'name' => 'required|regex:/^[(a-zA-Z\s)]+$/u|unique:request_types',
             'ideal_turnaround' => 'required|integer|min:0'
         ];

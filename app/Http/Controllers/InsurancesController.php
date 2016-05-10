@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\Provider;
 use App\Insurance;
 use App\InsuranceType;
-use URL;
 
 class InsurancesController extends Controller
 {
@@ -17,14 +16,25 @@ class InsurancesController extends Controller
         $this->middleware('admin', ['only' => ['destroy']]);
     }
 
+    /**
+     * Shows Add Insurance To Provider form
+     * @param  Request $request
+     * @return view
+     */
     public function create(Request $request)
     {
         $provider = Provider::findOrFail($request->segment(2));
         $types = InsuranceType::pluck('name', 'id');
         $types->prepend(null, 0);
+        
         return view('insurances.create', compact('types', 'provider'));
     }
 
+    /**
+     * Adds Insurance To Provider after validation
+     * @param  Request $request
+     * @return redirect to Provider Details page
+     */
     public function store(Request $request)
     {
         $provider = Provider::findOrFail($request->segment(2));
@@ -37,6 +47,12 @@ class InsurancesController extends Controller
         return redirect()->route('providers.show', [$provider]);
     }
 
+    /**
+     * Shows Edit Insurance Plan form
+     * @param  Provider  $provider
+     * @param  Insurance $insurance
+     * @return view
+     */
     public function edit(Provider $provider, Insurance $insurance)
     {
         $types = InsuranceType::pluck('name', 'id');
@@ -48,6 +64,13 @@ class InsurancesController extends Controller
         return view('insurances.edit', compact('insurance', 'types', 'selected'));
     }
 
+    /**
+     * Updates Insurance after validation
+     * @param  Provider  $provider
+     * @param  Insurance $insurance
+     * @param  Request   $request
+     * @return redirect to Provider Details page
+     */
     public function update(Provider $provider, Insurance $insurance, Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -60,14 +83,18 @@ class InsurancesController extends Controller
         return redirect()->route('providers.show', [$provider]);
     }
 
-    // admin only
+    /**
+     * Deletes Insurance and all related Requests
+     * @param  Provider  $provider
+     * @param  Insurance $insurance
+     * @return redirect to Provider Details page
+     */
     public function destroy(Provider $provider, Insurance $insurance)
     {
         $name = $insurance->name;
         $customers = $insurance->customers;
         $insurance->delete();
         foreach ($customers as $customer) {
-            //detach customer insurance
             $customer->total_requests = $customer->requests()->count();
             $customer->save();
         }
@@ -76,6 +103,10 @@ class InsurancesController extends Controller
         return redirect()->route('providers.show', [$provider]);
     }
 
+    /**
+     * Validation Rules
+     * @return array
+     */
     private function getRules()
     {
         return [

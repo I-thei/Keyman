@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Provider;
-use URL;
 
 class ProvidersController extends Controller
 {
@@ -15,7 +14,11 @@ class ProvidersController extends Controller
         $this->middleware('admin', ['except' => ['index', 'show']]);
     }
 
-    // shows list of providers
+    /**
+     * Shows sorted list of Providers
+     * @param  Request $request
+     * @return view
+     */
     public function index(Request $request)
     {
         $out = $this->sort($request);
@@ -29,21 +32,33 @@ class ProvidersController extends Controller
         return view('providers.index', compact('providers', 'sortby', 'order', 'sortMethod'));
     }
 
-    // shows details of each provider including plans
+    /**
+     * Shows Provider Details Page
+     * including Insurance List
+     * @param  Provider $provider
+     * @return view
+     */
     public function show(Provider $provider)
     {
         return view('providers.show', compact('provider'));
     }
 
-    // admin only
-    // shows create provider form
+    /**
+     * Shows Add New Provider form
+     * Admin Only
+     * @return view
+     */
     public function create()
     {
         return view('providers.create');
     }
 
-    // admin only
-    // processes create provider form
+    /**
+     * Adds Provider after validation
+     * Admin Only
+     * @param  Request $request
+     * @return redirects to Providers list
+     */
     public function store(Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -53,15 +68,24 @@ class ProvidersController extends Controller
         return redirect('providers');
     }
 
-    // admin only
-    // shows edit provider form
+    /**
+     * Shows Edit Provider form
+     * Admin Only
+     * @param  Provider $provider
+     * @return view
+     */
     public function edit(Provider $provider)
     {
         return view('providers.edit', compact('provider'));
     }
 
-    // admin only
-    // processes edit provider form
+    /**
+     * Updates Provider Info after validation
+     * Admin Only
+     * @param  Provider $provider
+     * @param  Request  $request
+     * @return redirect to Provider Details page
+     */
     public function update(Provider $provider, Request $request)
     {
         $rules = $this->getRules();
@@ -73,11 +97,15 @@ class ProvidersController extends Controller
         $provider->update($request->all());
 
         flash()->success($provider->name . ' has been updated!');
-        return redirect(URL::route('providers.show', [$provider->id]));
+        return redirect()->route('providers.show', [$provider->id]);
     }
 
-    // admin only
-    // processes delete provider
+    /**
+     * Deletes Provider and all its Insurances and Requests
+     * @param  Provider $provider
+     * @param  Request  $request
+     * @return redirect to Providers list
+     */
     public function destroy(Provider $provider, Request $request)
     {
         $name = $provider->name;
@@ -94,7 +122,10 @@ class ProvidersController extends Controller
         return redirect('providers');
     }
 
-    // validation rules
+    /**
+     * Validation Rules
+     * @return array
+     */
     private function getRules()
     {
         return [
@@ -105,6 +136,11 @@ class ProvidersController extends Controller
         ];
     }
 
+    /**
+     * Helper method to sort Providers list
+     * @param  Request $request
+     * @return array
+     */
     private function sort(Request $request)
     {
         // sortby = name, email

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Customer;
-use URL;
 
 class CustomersController extends Controller
 {
@@ -15,7 +14,11 @@ class CustomersController extends Controller
         $this->middleware('admin', ['only' => ['destroy']]);
     }
 
-    // shows list of customers
+    /**
+     * Shows Sorted list of Customers
+     * @param  Request $request
+     * @return view
+     */
     public function index(Request $request)
     {
         $out = $this->sort($request);
@@ -29,7 +32,13 @@ class CustomersController extends Controller
         return view('customers.index', compact('customers', 'sortby', 'order', 'sortMethod'));
     }
 
-    // shows details of each customer inclusing insurance and requests
+    /**
+     * Shows Customer Details page
+     * including Insurance List and Request List
+     * @param  Request  $request
+     * @param  Customer $customer
+     * @return view
+     */
     public function show(Request $request, Customer $customer)
     {
         $out = (new RequestsController)->sort($request);
@@ -45,17 +54,23 @@ class CustomersController extends Controller
 
         $count = $this->countRequests($customer);
 
-
         return view('customers.show', compact('customer', 'showUser', 'showCustomer', 'requests', 'sortby', 'order', 'sortMethod', 'attach', 'count'));
     }
 
-    // shows create customer form
+    /**
+     * Shows Add Customer form
+     * @return view
+     */
     public function create()
     {
         return view('customers.create');
     }
 
-    // processes create customer form to database
+    /**
+     * Adds new Customer after validation
+     * @param  Request $request
+     * @return redirect to Customers list
+     */
     public function store(Request $request)
     {
         $this->validate($request, $this->getRules());
@@ -65,13 +80,22 @@ class CustomersController extends Controller
         return redirect('customers');
     }
 
-    // shows edit customer form
+    /**
+     * Shows Edit Customer form
+     * @param  Customer $customer
+     * @return view
+     */
     public function edit(Customer $customer)
     {
         return view('customers.edit', compact('customer'));
     }
 
-    // processes edit customer form to database
+    /**
+     * Updates Customer profile after validation
+     * @param  Customer $customer
+     * @param  Request  $request
+     * @return redirect to Customer Details page
+     */
     public function update(Customer $customer, Request $request)
     {
         $rules = $this->getRules();
@@ -82,11 +106,16 @@ class CustomersController extends Controller
         $customer->update($request->all());
 
         flash()->success($customer->fullName . ' has been updated!');
-        return redirect(URL::route('customers.show', [$customer->id]));
+        return redirect()->route('customers.show', [$customer]);
     }
 
-    // admin only
-    // processes delete customer to database
+    /**
+     * Deletes Customer and all their Requests
+     * Admin Only
+     * @param  Customer $customer
+     * @param  Request  $request
+     * @return redirect to Customers list
+     */
     public function destroy(Customer $customer, Request $request)
     {
         $name = $customer->fullName;
@@ -96,7 +125,10 @@ class CustomersController extends Controller
         return redirect('customers');
     }
 
-    // validation rules
+    /**
+     * Validation Rules
+     * @return array
+     */
     private function getRules()
     {
         return [
@@ -108,6 +140,11 @@ class CustomersController extends Controller
         ];
     }
 
+    /**
+     * Helper method to sort Customers list
+     * @param  Request $request
+     * @return array
+     */
     private function sort(Request $request)
     {
         // sortby = total_requests, name, email
@@ -133,6 +170,12 @@ class CustomersController extends Controller
         return ['sortby' => $sortby, 'order' => $order, 'customers' => $customers];
     }
 
+    /**
+     * Helper method to count requests that were completed
+     * Early, On Time, or Overdue
+     * @param  Customer $customer
+     * @return array
+     */
     private function countRequests(Customer $customer)
     {
         $completedList = $customer->requests()->where('status', '=', 'COMPLETED')->get();
@@ -140,7 +183,11 @@ class CustomersController extends Controller
         $early = 0;
         $onTime = 0;
         foreach ($completedList as $completed) {
-            $ideal = $completed->created_at->addDays($completed->type->ideal_turnaround)->startOfDay();
+            if ($completed->type) {
+                $ideal = $completed->created_at->addDays($completed->type->ideal_turnaround)->startOfDay();
+            } else {
+                $ideal = $completed->created_at->startOfDay();
+            }
 
             if ($completed->turnaround_date->startOfDay()->gt($ideal)) {
                 $overdue += 1;
