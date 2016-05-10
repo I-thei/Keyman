@@ -5,12 +5,12 @@
 		</fieldset>
 
 		<fieldset class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-			{!! Form::label('type', 'Type:', ['class' => 'label-requests col-sm-3 !!}
+			{!! Form::label('type', 'Type:', ['class' => 'label-requests col-sm-3']) !!}
 			{!! Form::select('type', $types, isset($selected) ? $selected : 0, ['class' => 'col-sm-9 form-control','id' => 'type-select']) !!}
 		</fieldset>
 		
 		<fieldset class="form-group{{ $errors->has('payment') ? ' has-error' : '' }}">
-			{!! Form::label('payment', 'Price:', ['class' => 'label-requests col-sm-3!!}
+			{!! Form::label('payment', 'Price:', ['class' => 'label-requests col-sm-3']) !!}
 			{!! Form::input('number', 'payment', $insurance->payment ? $insurance->payment : 0.00, ['class' => 'col-sm-9 form-control', 'step' => '0.01']) !!}
 		</fieldset>
 

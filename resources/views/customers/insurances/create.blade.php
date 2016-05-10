@@ -1,11 +1,16 @@
 @extends('layouts.app')
 
 <link rel="stylesheet" href="/assets/css/add-edit.css">
-
 <style>
 
 	.select2-container{
-		width: 75% !important;
+		width: 60% !important;
+	}
+
+	@media (max-width: 767px) {
+		.select2-container{
+			width: 100% !important;
+		}
 	}
 	.select2-selection{
 		width:100% !important;
@@ -13,6 +18,7 @@
 		border-width: 2px !important;
 		border-color: #888888 !important;
 		height: 34px !important;
+		padding: 2px 4px 0 !important;
 	}
 	.select2-selection__arrow{
 		height: 34px !important;

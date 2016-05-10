@@ -6,13 +6,12 @@
 		</fieldset>
  --}}
 		<fieldset class="form-group">
-			{!! Form::label('name', 'Plan:', ['class' => 'label-requests col-md-3']) !!}
-			{!! Form::select('name', $plans, isset($selPlan) ? $selPlan : 0, ['class' => 'form-control col-md-9','id' => 'type-select']) !!}
+			{!! Form::label('name', 'Plan:', ['class' => 'label-requests col-sm-3']) !!}
+			{!! Form::select('name', $plans, isset($selPlan) ? $selPlan : 0, ['class' => 'form-control col-sm-9','id' => 'type-select']) !!}
 		</fieldset>
 
 		<fieldset class="form-group">
-			{!! Form::label('', '', ['class' => 'label-requests col-sm-6 col-sm-3 col-sm-offset-6']) !!} 
-			{!! Form::submit($submitButtonText, ['class' => 'btn btn-primary']) !!}
+			{!! Form::submit($submitButtonText, ['class' => 'btn btn-primary col-xs-offset-4']) !!}
 		</fieldset>
 
 		@section('footer')
