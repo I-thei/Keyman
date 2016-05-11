@@ -171,7 +171,7 @@
 						@if ($sortby == 'turnaround' && $order == 'asc') {!!
 		                     link_to_action(
 		                            $sortMethod,
-		                            '(ideal) turnaround',
+		                            '(ideal)turnaround',
 		                            [
 		                                isset($attach) ? $attach : null,
 		                                'sortby' => 'turnaround',
@@ -183,7 +183,7 @@
 	                    @elseif ($sortby == 'turnaround' && $order == 'desc') {!!
 	                        link_to_action(
 	                            $sortMethod,
-	                            '(ideal) turnaround',
+	                            '(ideal)turnaround',
 	                            [
 	                                isset($attach) ? $attach : null,
 	                                'sortby' => 'turnaround',
@@ -196,7 +196,7 @@
 	                     {!!
 	                        link_to_action(
 	                            $sortMethod,
-	                            '(ideal) turnaround',
+	                            '(ideal)turnaround',
 	                            [
 	                                isset($attach) ? $attach : null,
 	                                'sortby' => 'turnaround',
@@ -438,7 +438,7 @@
 		                    !!}">Request </a>
                 		@endif
 					</th>
-					<th style="width: 16%">
+					<th style="width: 15%">
 						@if ($sortby == 'turnaround' && $order == 'asc') 
 								<a href="{!! action(
 			                    	$sortMethod,
@@ -448,7 +448,7 @@
 			                                'order' => 'desc',
 			                            ]
 			                        )
-			                    !!}">(ideal) turnaround <i class="fa fa-caret-up" aria-hidden="true"></i></a>
+			                    !!}">(ideal)turnaround <i class="fa fa-caret-up" aria-hidden="true"></i></a>
 
 	                    @elseif($sortby == 'turnaround' && $order == 'desc')
 	                    	 <a href="{!!
@@ -460,7 +460,7 @@
 		                                'order' => 'asc',
 		                            ]
 		                        )
-		                    !!}">(ideal) turnaround <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		                    !!}">(ideal)turnaround <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 	                    @else
 	                    	<a href="{!! action(
 		                            $sortMethod,
@@ -470,7 +470,7 @@
 		                                'order' => 'desc',
 		                            ]
 		                        )
-		                    !!}">(ideal) turnaround </a>
+		                    !!}">(ideal)turnaround </a>
                 		@endif
 					</th>
 					@if ($showUser)
